@@ -1,107 +1,53 @@
 <!--
- * @Descripttion: 
+ * @Descripttion: 二维码
  * @version: 
  * @Author: zml
  * @Date: 2020-04-09 15:34:01
  * @LastEditors: zml
- * @LastEditTime: 2020-04-09 16:14:30
+ * @LastEditTime: 2020-04-11 10:17:41
  -->
 <template>
   <div class="home">
-    <van-collapse v-model="activeNames">
-      <van-collapse-item name="1">
-        <template #title>
-          <div class="firstTitle">
-            <div class="left">
-              
-            </div>
-            <div class="right">
-              <div>2344</div>
-              <div>15人</div>
-            </div>
-          </div>
-        </template>
-        <!-- 下一级 -->
-        <second />
-      </van-collapse-item>
-    </van-collapse>
+    <van-tabs v-model="active">
+      <van-tab :title="item" v-for="(item, index) in nav" :key="index" @click="check(index)">
+        <show v-if="active === 0" />
+        <show-and-down v-if="active === 1" />
+        <down v-if="active === 2" />
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import second from "./components/second";
-
+import show from './components/showQrcode'
+import showAndDown from './components/showAndDown'
+import down from './components/downloadQrcode'
 export default {
   name: "Home",
   data() {
     return {
-       activeNames: ['1'],
-      list: [
-        {
-          name: "123123123",
-          age: 19,
-          children: [
-            {
-              name: "123123123",
-              age: 19
-            },
-            {
-              name: "123123123",
-              age: 19
-            }
-          ]
-        },
-        {
-          name: "123123123",
-          age: 19,
-          children: [
-            {
-              name: "123123123",
-              age: 19
-            },
-            {
-              name: "123123123",
-              age: 19
-            }
-          ]
-        }
+      active: 0,
+      // nav
+      nav: [
+        '显示二维码','显示并下载','不显示下载'
       ]
     };
   },
   components: {
-    second
-  }
+    show,
+    showAndDown,
+    down
+  },
+  methods: {
+    // 点击nav切换组件
+    check(i) {
+      this.active = i
+    }
+  },
 };
 </script>
 
 <style scoped>
-.home {
-  background: #ccc;
-}
-  .firstTitle {
-    display: flex;
-    justify-content: space-between;
-  }
-  .right {
-    height: 50px;
-     display: flex;
-     flex-direction: column;
-    justify-content: space-between;
-  }
-  .van-cell {
-    position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px 16px;
-    overflow: hidden;
-    color: #323233;
-    font-size: 14px;
-    /* line-height: 24px; */
-    background-color: #fff;
-    align-items: center !important;
-}
+
 </style>
